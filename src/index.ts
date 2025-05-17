@@ -1,17 +1,5 @@
-const yturl = "https://www.youtube.com/";
-
-var enableAutoRedirect = true;
-
-function start(newUrl?: string) {
-    // 1. Shorts sayfasındaysa yönlendir
-    if (enableAutoRedirect && newUrl?.includes("/shorts/")) {
-        if (window.location.pathname !== yturl) {
-            window.location.replace(yturl);
-        }
-    }
-
-
-    // 2. Short content kisminin kaldirilmasi
+function start() {
+    // 1. Short content kisminin kaldirilmasi
     {
         let contents = document.querySelectorAll(".style-scope.ytd-rich-grid-renderer:not(#contents)");
 
@@ -23,9 +11,9 @@ function start(newUrl?: string) {
         })
     }
 
-    //3. Short tusunu kaldir.
+    //2. Short tusunu kaldir.
     {
-        let contents = document.querySelectorAll("[aria-label='Shorts'].style-scope.ytd-mini-guide-renderer");
+        let contents = document.querySelectorAll("[aria-label='Shorts'].style-scope.ytd-mini-guide-renderer, .style-scope.ytd-guide-section-renderer [title='Shorts']");
 
         contents.forEach((value) => {
             value.remove();
