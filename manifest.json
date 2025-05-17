@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Shorts Engelleyici",
+    "version": "1.0",
+    "description": "YouTube Shorts içeriklerini engeller.",
+    "content_scripts": [
+        {
+            "matches": [
+                "*://www.youtube.com/*"
+            ],
+            "js": [
+                "dist/index.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "permissions": [
+        "scripting"
+    ],
+    "icons": {
+        "48": "icon.png"
+    }
+}

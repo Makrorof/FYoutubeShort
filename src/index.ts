@@ -1,0 +1,77 @@
+const yturl = "https://www.youtube.com/";
+
+var enableAutoRedirect = true;
+
+function start(newUrl?: string) {
+    // 1. Shorts sayfasındaysa yönlendir
+    if (enableAutoRedirect && newUrl?.includes("/shorts/")) {
+        if (window.location.pathname !== yturl) {
+            window.location.replace(yturl);
+        }
+    }
+
+
+    // 2. Short content kisminin kaldirilmasi
+    {
+        let contents = document.querySelectorAll(".style-scope.ytd-rich-grid-renderer:not(#contents)");
+
+        contents.forEach((value) => {
+            const titleElement = value.querySelector("#title");
+            if (titleElement && titleElement.innerHTML?.includes("Shorts")) {
+                value.remove();
+            }
+        })
+    }
+
+    //3. Short tusunu kaldir.
+    {
+        let contents = document.querySelectorAll("[aria-label='Shorts'].style-scope.ytd-mini-guide-renderer");
+
+        contents.forEach((value) => {
+            value.remove();
+        })
+    }
+
+    //Extra: Reklamlari kaldir.
+    {
+        //Kucuk video boyutundaki sponsor reklamlar.
+        let contents = document.querySelectorAll(".style-scope.ytd-mini-guide-renderer, .style-scope.ytd-rich-item-renderer");
+        contents.forEach((value) => {
+            let adElement = value.querySelector(".ytd-ad-inline-playback-meta-block");
+            if (adElement) {
+                value.remove();
+            }
+        });
+
+        //Buyuk reklamlar
+        document.querySelector("#masthead-ad")?.remove();
+    }
+}
+
+function observeWhenReady() {
+    const tryObserve = () => {
+        const target = document.body;
+        if (!target) {
+            // DOM henüz hazır değil, tekrar dene
+            requestAnimationFrame(tryObserve);
+            return;
+        }
+
+        const observer = new MutationObserver(() => {
+            start();
+        });
+
+        // Artık emin olduğumuz bir Node verdiğimiz için hata almayız
+        observer.observe(target, {
+            childList: true,
+            subtree: true
+        });
+
+        start();
+    };
+
+    tryObserve();
+}
+document.addEventListener("DOMContentLoaded", () => {
+    observeWhenReady();
+});
