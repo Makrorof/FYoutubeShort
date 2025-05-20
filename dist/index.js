@@ -3,7 +3,7 @@ function start() {
     var _a;
     // 1. Short content kisminin kaldirilmasi
     {
-        let contents = document.querySelectorAll(".style-scope.ytd-rich-grid-renderer:not(#contents)");
+        let contents = document.querySelectorAll(".style-scope.ytd-rich-grid-renderer:not(#contents), .style-scope.ytd-item-section-renderer:not(#contents)");
         contents.forEach((value) => {
             var _a;
             const titleElement = value.querySelector("#title");
